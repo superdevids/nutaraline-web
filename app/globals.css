@@ -1,0 +1,392 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+
+  --bg: #0d110d;
+  --bg-deep: #080b08;
+  --surface: #141a14;
+  --surface-raised: #1b231b;
+  --border: #263326;
+  --border-strong: #345436;
+
+  --primary: #39873d;
+  --primary-hover: #43a047;
+  --accent: #28ba30;
+
+  --text: #e8ede8;
+  --text-muted: #9bac9b;
+  --text-faint: #6e806e;
+  --text-on-primary: #ffffff;
+
+  --success: #28ba30;
+  --warning: #d6a526;
+  --error: #e5484d;
+  --info: #4a90d9;
+  --neutral: #8a9a8a;
+  --ghost: transparent;
+
+  --success-bg: color-mix(in srgb, var(--success) 12%, transparent);
+  --success-border: color-mix(in srgb, var(--success) 35%, transparent);
+  --warning-bg: color-mix(in srgb, var(--warning) 12%, transparent);
+  --warning-border: color-mix(in srgb, var(--warning) 35%, transparent);
+  --error-bg: color-mix(in srgb, var(--error) 12%, transparent);
+  --error-border: color-mix(in srgb, var(--error) 35%, transparent);
+  --info-bg: color-mix(in srgb, var(--info) 12%, transparent);
+  --info-border: color-mix(in srgb, var(--info) 35%, transparent);
+  --neutral-bg: color-mix(in srgb, var(--neutral) 12%, transparent);
+  --neutral-border: color-mix(in srgb, var(--neutral) 35%, transparent);
+
+  --chart-1: var(--accent);
+  --chart-2: #4a90d9;
+  --chart-3: #a78bfa;
+  --chart-4: #8a9a8a;
+  --chart-grid: var(--border);
+
+  /* Lifted surfaces carry a barely-there top highlight so panels read as
+     physical planes rather than flat rectangles. Kept at 4% — anything
+     stronger turns into gloss. */
+  --sheen: color-mix(in srgb, var(--text) 4%, transparent);
+  --grid-line: color-mix(in srgb, var(--border) 40%, transparent);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-deep: var(--bg-deep);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-accent: var(--accent);
+
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
+  --color-text-on-primary: var(--text-on-primary);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+  --color-neutral: var(--neutral);
+
+  --color-success-bg: var(--success-bg);
+  --color-success-border: var(--success-border);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-border: var(--warning-border);
+  --color-error-bg: var(--error-bg);
+  --color-error-border: var(--error-border);
+  --color-info-bg: var(--info-bg);
+  --color-info-border: var(--info-border);
+  --color-neutral-bg: var(--neutral-bg);
+  --color-neutral-border: var(--neutral-border);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-grid: var(--chart-grid);
+
+  --color-sheen: var(--sheen);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-full: var(--radius-full);
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-24: 96px;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  background: var(--bg);
+  /* The backdrop ring extends past the viewport by design. `clip` (not
+     `hidden`) keeps horizontal overflow cut WITHOUT creating a scroll
+     container, so position: sticky keeps working further down the tree. */
+  overflow-x: clip;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* See html above: clip, so sticky sidebars keep travelling with the page. */
+  overflow-x: clip;
+  /* Prevents any single wide child from stretching the layout viewport. */
+  max-width: 100vw;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Interactive affordance: anything clickable shows a pointer. Disabled
+   controls fall back to not-allowed so the distinction stays visible. */
+button,
+[role="button"],
+[role="tab"],
+[role="radio"],
+[role="option"],
+label[for],
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+/* Ambient page backdrop: layered gradients plus a faint grid and a single
+   offset ring. Everything is held below roughly 8% opacity so content always
+   wins. No animated gradients — they cost battery and read as noise. */
+.page-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% -8%,
+      color-mix(in srgb, var(--accent) 10%, transparent),
+      transparent 72%),
+    radial-gradient(ellipse 45% 35% at 100% 0%,
+      color-mix(in srgb, var(--info) 6%, transparent),
+      transparent 70%),
+    radial-gradient(ellipse 50% 40% at 0% 100%,
+      color-mix(in srgb, var(--accent) 5%, transparent),
+      transparent 70%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+}
+
+/* Soft grid, faded at the edges. */
+.page-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right,
+      var(--grid-line) 1px,
+      transparent 1px),
+    linear-gradient(to bottom,
+      var(--grid-line) 1px,
+      transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 65% 45% at 50% 0%,
+      black 15%,
+      transparent 72%);
+  opacity: 0.45;
+}
+
+/* Second texture pass: a dot lattice offset half a cell, so the fine grid
+   and the dots never align into visible moiré. Faded from the bottom so the
+   upper half of every page stays calm. */
+.page-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--grid-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 12px 12px;
+  mask-image: linear-gradient(to bottom,
+      transparent 55%,
+      black 100%);
+  opacity: 0.5;
+}
+
+/* Reusable dot lattice. Unlike the page layer this one is not masked by the
+   viewport: callers clip it to their own box. */
+.dot-grid {
+  background-image: radial-gradient(var(--grid-line) 1px, transparent 1px);
+  background-size: 18px 18px;
+  mask-image: radial-gradient(ellipse 70% 100% at 50% 0%, black 20%, transparent 78%);
+}
+
+/* Full-page structural grid: large cells faded toward the middle so content
+   always sits on a calm field. Painted on body, below every stacking context,
+   so it shows through gaps between panels on every route. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 96px 96px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, transparent 8%, black 88%);
+  opacity: 0.35;
+}
+
+/* Corner-tinted panel: dots in the top-right, faded before they reach text. */
+.panel-dots {
+  background-image: radial-gradient(var(--grid-line) 1px, transparent 1px);
+  background-size: 16px 16px;
+  mask-image: radial-gradient(ellipse 120px 120px at 100% 0%, black 10%, transparent 72%);
+  opacity: 0.9;
+}
+
+/* Surface primitives ------------------------------------------------------
+   `.surface-lift` is the standard panel: a one-pixel top highlight over the
+   raised colour. Cheap (two background layers, no pseudo element), so it can
+   be applied to every card-like container. */
+.surface-lift {
+  background-image: linear-gradient(180deg, var(--sheen), transparent 96px);
+}
+
+/* Focused blocks (hero panels, featured plans) get a faint diagonal sweep
+   anchored to the top-right corner. */
+.surface-sweep {
+  background-image:
+    radial-gradient(ellipse 80% 120% at 100% 0%,
+      color-mix(in srgb, var(--accent) 9%, transparent),
+      transparent 62%),
+    linear-gradient(180deg, var(--sheen), transparent 96px);
+}
+
+/* Status dot with a soft halo. The halo is a static ring; only the pulsing
+   variant animates, and that is disabled under reduced motion above. */
+.dot-halo {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+}
+
+.dot-halo::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  border: 1px solid currentColor;
+  opacity: 0.28;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-up-delay-1 {
+  animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
+}
+
+.animate-fade-up-delay-2 {
+  animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+@keyframes pulse-dot {
+
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+
+  50% {
+    opacity: 0.65;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 0%, transparent);
+  }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+
+/* Slow drift for the connection status halo: reads as "live" without the
+   strobing a fast pulse would cause next to text. */
+@keyframes halo-breathe {
+
+  0%,
+  100% {
+    opacity: 0.22;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.05;
+    transform: scale(1.25);
+  }
+}
+
+.animate-halo {
+  animation: halo-breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes bar-grow {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Progress fills grow out from the left on mount. `origin-left` plus a
+   transform keeps this on the compositor — no width recalculation per frame. */
+.animate-bar {
+  transform-origin: left center;
+  animation: bar-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Builds
+*.tsbuildinfo
+next-env.d.ts
+
+# Environment — local overrides are machine-specific; .env.example is tracked
+.env
+.env*.local
+
+# Misc
+.DS_Store
+*.log
