@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { GhostNumber, HeroGlow } from "./decoration";
+import { GhostBrand, HeaderTexture } from "./decoration";
 
 export function EmptyState({ icon, title, body, action, className }: { icon?: ReactNode; title: string; body?: string; action?: ReactNode; className?: string }) {
 	return (
@@ -15,14 +15,15 @@ export function EmptyState({ icon, title, body, action, className }: { icon?: Re
 	);
 }
 
-export function PageHeader({ title, subtitle, action, marker, glow = true }: { title: string; subtitle?: string; action?: ReactNode; marker?: string; glow?: boolean }) {
+export function PageHeader({ title, subtitle, action, glow = true }: { title: string; subtitle?: string; action?: ReactNode; glow?: boolean }) {
 	return (
-		<div className="relative mb-6 flex flex-wrap items-end justify-between gap-4 pt-3">
-			{glow ? (
-				<HeroGlow>
-					{marker ? <GhostNumber value={marker} className="right-0 -top-8 text-[8rem]" /> : null}
-				</HeroGlow>
-			) : null}
+		<div className="animate-settle relative mb-6 flex flex-wrap items-end justify-between gap-4 pt-3">
+			{/* Shared header backdrop. `HeaderTexture` is the same element /docs,
+			    /tos and /privacy use; the wordmark sits inside it so every route
+			    gets an identical brand layer at the same position and size. */}
+			<HeaderTexture className="-top-10 h-48">
+				{glow ? <GhostBrand className="text-[6.5rem]" /> : null}
+			</HeaderTexture>
 			<div className="min-w-0">
 				<h1 className="bg-linear-to-b from-text to-text-muted bg-clip-text text-3xl font-bold tracking-tight text-transparent">{title}</h1>
 				{subtitle ? <p className="mt-1.5 max-w-2xl text-sm text-text-muted">{subtitle}</p> : null}

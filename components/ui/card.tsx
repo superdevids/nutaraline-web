@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { PanelCorners } from "./decoration";
 
@@ -6,7 +6,8 @@ import { PanelCorners } from "./decoration";
  * Standard panel. `surface-lift` adds the one-pixel top highlight defined in
  * globals.css; `tone="accent"` swaps in the diagonal green sweep used by
  * focused blocks. `corners` adds crop-mark brackets, which need the caller to
- * add `group` to the className if the hover state is wanted.
+ * add `group` to the className if the hover state is wanted. `animate` opts
+ * into the entrance used for content that resolves after the first paint.
  */
 export function Card({
   className,
@@ -14,18 +15,24 @@ export function Card({
   as: Tag = "div",
   tone = "plain",
   corners = false,
+  animate = false,
+  style,
 }: {
   className?: string;
   children: ReactNode;
   as?: "div" | "section" | "article" | "li";
   tone?: "plain" | "accent";
   corners?: boolean;
+  animate?: boolean;
+  style?: CSSProperties;
 }) {
   return (
     <Tag
+      style={style}
       className={cn(
         "relative overflow-hidden rounded-lg border border-border bg-surface",
         tone === "accent" ? "surface-sweep" : "surface-lift",
+        animate && "animate-settle",
         className,
       )}
     >
@@ -54,10 +61,7 @@ export function CardHeader({
       )}
     >
       <div className="min-w-0">
-        <h2 className="flex items-center gap-2 text-base font-semibold text-text">
-          <span aria-hidden className="h-3.5 w-0.5 rounded-full bg-accent" />
-          {title}
-        </h2>
+        <h2 className="text-base font-semibold text-text">{title}</h2>
         {subtitle ? (
           <p className="mt-0.5 text-sm text-text-muted">{subtitle}</p>
         ) : null}

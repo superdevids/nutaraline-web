@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { BookOpen } from "lucide-react";
 import { PageHeader } from "@/components/ui/empty-state";
+import { PageLoading } from "@/components/ui/page-loading";
 import { DocsContent } from "@/components/docs/docs-content";
 import { getDictionary } from "@/lib/i18n/server";
 import { getDocSlugs, getDocTree } from "@/lib/markdown/load";
@@ -50,23 +51,20 @@ async function DocsRoute({
 
   return (
     <>
-      <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">
-        <BookOpen aria-hidden size={13} />
-        {dict.nav.docs}
+      <div className="mb-8">
+        <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">
+          <BookOpen aria-hidden size={13} />
+          {dict.nav.docs}
+        </div>
+        <PageHeader title={dict.docs.title} subtitle={dict.docs.subtitle} />
       </div>
-      <PageHeader title={dict.docs.title} subtitle={dict.docs.subtitle} marker="06" glow={false} />
       <DocsContent slug={target ?? null} dict={dict} locale={locale} />
     </>
   );
 }
 
 function DocsSkeleton() {
-  return (
-    <div
-      aria-hidden
-      className="mt-8 h-64 animate-pulse rounded-lg border border-border bg-surface"
-    />
-  );
+  return <PageLoading variant="article" />;
 }
 
 export default function DocsPage({

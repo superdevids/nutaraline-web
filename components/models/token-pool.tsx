@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { Card } from "@/components/ui/card";
 import { PanelDecoration } from "@/components/ui/decoration";
 import { CopyModelIdButton } from "./model-identity";
@@ -79,13 +79,14 @@ export function TokenPool({ dict }: { dict: Dictionary }) {
 			</div>
 
 			<ul className="grid gap-px bg-border sm:grid-cols-2">
-				{pools.map((pool) => {
+				{pools.map((pool, index) => {
 					const tone = poolTone(pool.remainingPercent);
 
 					return (
 						<li
 							key={pool.slug}
-							className="bg-surface px-5 py-5"
+							style={{ "--delay": `${index * 60}ms` } as CSSProperties}
+							className="animate-settle bg-surface px-5 py-5"
 						>
 							<div className="flex items-start justify-between gap-3">
 								<div className="flex min-w-0 flex-col items-start gap-1.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-2">

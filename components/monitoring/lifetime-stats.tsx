@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { AnimatedNumber } from "@/components/monitoring/animated-number";
 import { GlowRule, PanelDecoration } from "@/components/ui/decoration";
 
@@ -27,7 +27,7 @@ export function LifetimeStats({ initialRequests, initialTokens, requestsLabel, t
 
 	return (
 		<div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
-			<div className="lg:col-span-2 surface-sweep group relative overflow-hidden rounded-lg border border-border bg-surface px-5 py-5 transition-colors hover:border-border-strong">
+			<div className="lg:col-span-2 surface-sweep animate-settle group relative overflow-hidden rounded-lg border border-border bg-surface px-5 py-5 transition-colors hover:border-border-strong">
 				<div
 					aria-hidden
 					className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent/10 blur-2xl"
@@ -46,7 +46,7 @@ export function LifetimeStats({ initialRequests, initialTokens, requestsLabel, t
 				</p>
 			</div>
 
-			<div className="surface-lift col-span-1 group relative overflow-hidden rounded-lg border border-border bg-surface px-5 py-5 transition-colors hover:border-border-strong">
+			<div className="surface-lift animate-settle col-span-1 group relative overflow-hidden rounded-lg border border-border bg-surface px-5 py-5 transition-colors hover:border-border-strong" style={{ "--delay": "80ms" } as CSSProperties}>
 				<PanelDecoration
 					variant="dots"
 					className="text-border-strong opacity-40"

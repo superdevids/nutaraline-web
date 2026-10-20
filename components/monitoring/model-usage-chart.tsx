@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
 import { formatNumber } from "@/lib/format";
@@ -84,8 +84,9 @@ export function ModelUsageChart({
           return (
             <li
               key={row.name}
+              style={{ "--delay": `${Math.min(index, 8) * 50}ms` } as CSSProperties}
               className={cn(
-                "relative px-4 py-3 sm:px-5",
+                "animate-settle relative px-4 py-3 sm:px-5",
                 index === 0 &&
                   "bg-linear-to-r from-accent/[0.06] to-transparent",
               )}

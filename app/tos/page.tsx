@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Scale } from "lucide-react";
 import { LegalPage } from "@/components/legal/legal-page";
+import { PageLoading } from "@/components/ui/page-loading";
 import { getDictionary } from "@/lib/i18n/server";
 import type { Locale } from "@/lib/i18n";
 
@@ -153,14 +154,7 @@ async function TosContent() {
 
 export default function TosPage() {
   return (
-    <Suspense
-      fallback={
-        <div
-          aria-hidden
-          className="mx-auto h-96 w-full max-w-[1200px] animate-pulse rounded-lg border border-border bg-surface"
-        />
-      }
-    >
+    <Suspense fallback={<PageLoading variant="article" />}>
       <TosContent />
     </Suspense>
   );

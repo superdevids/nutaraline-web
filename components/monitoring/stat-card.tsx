@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 /** Large hero statistic. */
@@ -67,12 +67,14 @@ export function LiveCard({
   unit,
   hint,
   tone = "neutral",
+  delay,
 }: {
   label: string;
   value: ReactNode;
   unit?: string;
   hint?: string;
   tone?: "neutral" | "success" | "warning" | "error";
+  delay?: string;
 }) {
   const toneClass = {
     neutral: "text-text",
@@ -82,7 +84,10 @@ export function LiveCard({
   }[tone];
 
   return (
-    <div className="surface-lift rounded-lg border border-border bg-surface px-4 py-4 transition-colors hover:border-border-strong">
+    <div
+      style={delay ? ({ "--delay": delay } as CSSProperties) : undefined}
+      className="surface-lift animate-settle rounded-lg border border-border bg-surface px-4 py-4 transition-colors hover:border-border-strong"
+    >
       <p className="text-xs font-medium uppercase tracking-wide text-text-faint">
         {label}
       </p>

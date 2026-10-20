@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { Activity, Coins, ServerCog } from "lucide-react";
-import { GhostNumber, HeroGlow, PanelDecoration } from "@/components/ui/decoration";
+import { PanelDecoration } from "@/components/ui/decoration";
+import { PageLoading } from "@/components/ui/page-loading";
+import { PageHeader } from "@/components/ui/empty-state";
 import { LifetimeStats } from "@/components/monitoring/lifetime-stats";
 import { LiveMetricsRow } from "@/components/monitoring/live-metrics-row";
 import { ConnectionCard } from "@/components/monitoring/connection-card";
@@ -99,13 +101,9 @@ async function MonitoringContent({ range }: { range: 7 | 30 | 90 }) {
 }
 
 function Skeleton() {
-	return (
-		<div
-			aria-hidden
-			className="h-96 animate-pulse rounded-lg border border-border bg-surface"
-		/>
-	);
+	return <PageLoading variant="monitoring" />;
 }
+
 
 async function MonitoringRoute({ searchParams }: { searchParams: PageProps<"/monitoring">["searchParams"] }) {
 	const query = await searchParams;
@@ -114,13 +112,7 @@ async function MonitoringRoute({ searchParams }: { searchParams: PageProps<"/mon
 
 	return (
 		<>
-			<div className="relative mb-8">
-				<HeroGlow>
-					<GhostNumber
-						value="01"
-						className="-right-1 -top-10 text-[9rem]"
-					/>
-				</HeroGlow>
+			<div className="mb-8">
 				<div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">
 					<Activity
 						aria-hidden
@@ -128,8 +120,10 @@ async function MonitoringRoute({ searchParams }: { searchParams: PageProps<"/mon
 					/>
 					{dict.monitoring.title}
 				</div>
-				<h1 className="animate-fade-up mt-3 text-3xl font-bold tracking-tight bg-linear-to-b from-text to-text-muted bg-clip-text text-transparent sm:text-4xl">{dict.monitoring.hero.title}</h1>
-				<p className="animate-fade-up-delay-1 mt-2 max-w-2xl text-sm leading-relaxed text-text-muted">{dict.monitoring.hero.subtitle}</p>
+				<PageHeader
+					title={dict.monitoring.hero.title}
+					subtitle={dict.monitoring.hero.subtitle}
+				/>
 			</div>
 			<MonitoringContent range={range} />
 		</>

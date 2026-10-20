@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { ErrorScreen } from "@/components/errors/error-screen";
+import { PageLoading } from "@/components/ui/page-loading";
 import { ERROR_CODES, isErrorCode, toneForCode } from "@/lib/errors";
 import { getDictionary } from "@/lib/i18n/server";
 
@@ -39,12 +40,7 @@ async function ErrorContent({
 }
 
 function ErrorSkeleton() {
-  return (
-    <div
-      aria-hidden
-      className="mx-auto h-64 w-full max-w-[1200px] animate-pulse rounded-lg border border-border bg-surface"
-    />
-  );
+  return <PageLoading />;
 }
 
 export default async function ErrorPage({

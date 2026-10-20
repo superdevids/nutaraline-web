@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useSyncExternalStore, type CSSProperties } from "react";
 import {
   Bell,
   ChevronDown,
@@ -113,11 +113,15 @@ export function NotificationList({
           />
         ) : (
           <ul className="divide-y divide-border">
-            {notifications.map((item) => {
+            {notifications.map((item, index) => {
               const Icon = categoryIcon[item.category];
 
               return (
-                <li key={item.id}>
+                <li
+                  key={item.id}
+                  style={{ "--delay": `${Math.min(index, 10) * 40}ms` } as CSSProperties}
+                  className="animate-settle"
+                >
                   <details name="nutaraline-notification" className="group">
                     <summary
                       onToggle={(event) => {

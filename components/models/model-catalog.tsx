@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { ArrowDownUp, LayoutGrid, Rows3, Search } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -215,8 +215,15 @@ export function ModelCatalog({
         </Card>
       ) : activeView === "cards" ? (
         <ul className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {visible.map((model) => (
-            <Card as="li" key={model.id} corners className="group flex flex-col p-4 transition-colors hover:border-border-strong">
+          {visible.map((model, index) => (
+            <Card
+              as="li"
+              key={model.id}
+              corners
+              animate
+              className="group flex flex-col p-4 transition-colors hover:border-border-strong"
+              style={{ "--delay": `${Math.min(index, 8) * 40}ms` } as CSSProperties}
+            >
               <div className="flex items-center gap-2.5">
                 <ModelGlyph
                   providerId={model.providerId}

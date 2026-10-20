@@ -1,7 +1,7 @@
 import { Alert } from "@/components/ui/badge";
-import { PanelDecoration } from "@/components/ui/decoration";
 import { cn } from "@/lib/cn";
 import { isDemoBuild } from "@/lib/env";
+import { GhostBrand, HeaderTexture } from "@/components/ui/decoration";
 import type { LucideIcon } from "lucide-react";
 import type { Dictionary } from "@/lib/i18n";
 
@@ -29,9 +29,12 @@ export function LegalPage({
   return (
     <div className="mx-auto grid w-full max-w-[1200px] gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_220px]">
       <article className="relative min-w-0">
-        <div className="pointer-events-none absolute inset-x-0 -top-8 -z-10 h-48 overflow-hidden">
-          <div className="dot-grid absolute inset-0 opacity-50" />
-        </div>
+        {/* Shared header texture: dotted-lattice wash faded downward. Docs and
+            legal pages use this, and the dashboard pages now reuse it so every
+            route opens on the same backdrop. */}
+        <HeaderTexture className="-top-8 h-48">
+          <GhostBrand className="text-[6.5rem]" />
+        </HeaderTexture>
         <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">
           <BadgeIcon aria-hidden size={13} />
           {badgeLabel}
@@ -69,14 +72,9 @@ export function LegalPage({
         ))}
       </article>
 
-      <aside className="relative hidden lg:block">
+      <aside className="hidden lg:block">
         <nav aria-label={dict.legal.toc} className="sticky top-24">
-          <PanelDecoration
-            variant="grid"
-            className="text-accent/10"
-            style={{ maskImage: "linear-gradient(to right, black, transparent)" }}
-          />
-          <p className="relative text-xs font-semibold uppercase tracking-wide text-text-faint">
+          <p className="text-xs font-semibold uppercase tracking-wide text-text-faint">
             {dict.legal.toc}
           </p>
           <ul className="mt-2 flex flex-col gap-0.5 border-l border-border">

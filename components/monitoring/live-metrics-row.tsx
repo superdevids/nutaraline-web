@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { LiveCard } from "@/components/monitoring/stat-card";
 import { UptimeStrip } from "@/components/monitoring/uptime-strip";
 import { AnimatedNumber } from "@/components/monitoring/animated-number";
@@ -36,18 +36,24 @@ export function LiveMetricsRow({ initial, dict }: { initial: LiveMetrics; dict: 
 				label={dict.monitoring.hero.requestsPerMinute}
 				value={<AnimatedNumber value={metrics.requests} />}
 				hint={dict.monitoring.hero.lastMinute}
+				delay="0ms"
 			/>
 			<LiveCard
 				label={dict.monitoring.hero.tokensPerMinute}
 				value={<AnimatedNumber value={metrics.tokens} />}
 				hint={dict.monitoring.hero.lastMinute}
+				delay="60ms"
 			/>
 			<LiveCard
 				label={dict.monitoring.hero.medianLatency}
 				value={<AnimatedNumber value={metrics.medianLatencyMs} />}
 				hint={dict.monitoring.hero.millisecondsHint}
+				delay="120ms"
 			/>
-			<div className="rounded-lg border border-border bg-surface px-4 py-4 transition-colors hover:border-border-strong">
+			<div
+				style={{ "--delay": "180ms" } as CSSProperties}
+				className="animate-settle rounded-lg border border-border bg-surface px-4 py-4 transition-colors hover:border-border-strong"
+			>
 				<p className="text-xs font-medium uppercase tracking-wide text-text-faint">{dict.monitoring.hero.uptime10m}</p>
 				<div className="mt-2">
 					<p className="tabular text-xl font-bold leading-none text-text">{formatPercent(metrics.uptimePercent, 2)}</p>
