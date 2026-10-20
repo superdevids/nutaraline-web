@@ -138,6 +138,13 @@ Fase ini berjalan dengan **data simulasi** di `lib/dummy/`. Angka, model, dan tr
 
 > Jalankan pemeriksaan secara **berurutan** (`typecheck` → `lint` → `test` → `build`). `next build` menulis ke `.next` dan tidak aman bila dijalankan paralel.
 
+## Deploy
+
+Proyek di-deploy ke Vercel dan mengandalkan hasil `npm ci` dari `package-lock.json`. Dua hal yang dijaga:
+
+- **Lockfile selalu di-commit** setiap kali `package.json` berubah. Vercel melakukan instalasi bersih, jadi lockfile yang tidak sinkron langsung menggagalkan build.
+- **`@types/node` mengikuti peer `vitest`** (`^22.0.0 || >=24.0.0`). Menurunkannya ke `^20` akan memicu `ERESOLVE` saat instalasi bersih, meski build lokal tampak normal karena `node_modules` sudah terbentuk.
+
 ## Kualitas kode
 
 - Typecheck wajib bersih dan lint tanpa galat sebelum commit.
